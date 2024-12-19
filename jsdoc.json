@@ -1,0 +1,39 @@
+{
+  "source": {
+    "include": [
+      "packages/image-daemon/src/",
+      "packages/image-daemon/types.d.ts",
+       "packages/shared/src",
+      "packages/shared/types.d.ts"
+    ],
+    "exclude": ["node_modules"],
+    "includePattern": ".+\\.ts$",
+    "excludePattern": "(node_modules|docs)"
+  },
+  "plugins": ["node_modules/better-docs/typescript"],
+  "opts": {
+    "destination": "./docs",
+    "recurse": true
+  },
+  "typescript": {
+    "moduleRoot": "src",
+    "treatWarningsAsErrors": false,
+
+    "compilerOptions": {
+      "target": "ES2020",
+      "module": "commonjs",
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+      "forceConsistentCasingInFileNames": true,
+      "outDir": "./dist",
+      "rootDir": "./src",
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["src/*"]
+      }
+    },
+    "include": ["./**/src/**/*.ts", "types.d.ts"],
+    "exclude": ["node_modules"]
+  }
+}
