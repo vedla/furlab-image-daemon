@@ -6,7 +6,8 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "baseUrl": ".",
+    "outDir": "dist",
+    "rootDir": "src",
     "paths": {
       "@/*": [
         "./src/*"
@@ -16,9 +17,10 @@
   "include": [
     "src/**/*.ts",
     "types.d.ts",
-    "server.ts"
+    "src/server.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist"
   ]
 }

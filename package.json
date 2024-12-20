@@ -2,7 +2,7 @@
   "name": "furlab-api",
   "version": "1.0.0",
   "description": "Furlab API Services",
-  "main": "src/server.js",
+  "main": "dist/server.js",
   "repository": "https://github.com/vedla/furlab-api.git",
   "author": "Tay Fox <tay@vedla.io>",
   "license": "MIT",
@@ -13,7 +13,9 @@
     "proxy": "ts-node-dev server.ts",
     "workspace:install": "concurrently \"yarn workspace @furlab-api/image-daemon install\"",
     "dev": "concurrently \"yarn proxy\" \"yarn workspace @furlab-api/image-daemon dev\"",
-    "dev:image-daemon": "yarn workspace @furlab-api/image-daemon dev"
+    "dev:image-daemon": "yarn workspace @furlab-api/image-daemon dev",
+    "build": "tsc -p tsconfig.json && yarn workspaces run build",
+    "start": "node dist/server.js"
   },
   "dependencies": {
     "dotenv": "^16.4.7",

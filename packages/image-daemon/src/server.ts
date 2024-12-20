@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import express, { Application } from 'express';
 import cors from 'cors';
-import imageRoutes from './src/routes/imageRoutes';
+import imageRoutes from './routes/imageRoutes';
 
 import { server, info, warn, error } from 'good-logs';
 

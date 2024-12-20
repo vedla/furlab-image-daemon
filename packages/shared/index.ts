@@ -1,6 +1,6 @@
-import authMiddleware from './middleware/authMiddleware';
-import { validateFile, uploadMiddleware } from './middleware/validateFile';
+import authMiddleware from './src/middleware/authMiddleware';
+import { validateFile, uploadMiddleware } from './src/middleware/validateFile';
 
-import { AppRequest } from './utils/Types';
+import { AppRequest } from './src/utils/Types';
 
 export { authMiddleware, AppRequest, validateFile, uploadMiddleware };

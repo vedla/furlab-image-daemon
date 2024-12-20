@@ -3,7 +3,7 @@
     "include": [
       "packages/image-daemon/src/",
       "packages/image-daemon/types.d.ts",
-       "packages/shared/src",
+      "packages/shared/src",
       "packages/shared/types.d.ts"
     ],
     "exclude": ["node_modules"],
@@ -34,6 +34,6 @@
       }
     },
     "include": ["./**/src/**/*.ts", "types.d.ts"],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "dist"]
   }
 }

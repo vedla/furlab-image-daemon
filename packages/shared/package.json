@@ -2,7 +2,7 @@
   "name": "@furlab-api/shared",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "dist/index.js",
   "author": "Tay Fox <tay@vedla.io>",
   "license": "MIT",
   "dependencies": {

@@ -2,7 +2,7 @@
   "name": "@furlab-api/image-daemon",
   "version": "1.0.0",
   "description": "Furlab Image Service",
-  "main": "server.js",
+  "main": "dist/server.js",
   "repository": "https://github.com/vedla/furlab-image-daemon.git",
   "author": "Tay Fox <tay@vedla.io>",
   "license": "MIT",

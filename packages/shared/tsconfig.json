@@ -1,20 +1,26 @@
 {
   "compilerOptions": {
-    "target": "ES6",
-    "module": "CommonJS",
+    "target": "ES2020",
+    "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "outDir": "./dist",
-    "baseUrl": "./",
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "dist",
+    "rootDir": "src",
     "paths": {
-      "*": [
-        "node_modules/*"
+      "@/*": [
+        "./src/*"
       ]
     }
   },
-  // "include": [
-  //   "middleware/**/*.ts",
-  //   "utils/**/*.ts"
-  // ]
+  "include": [
+    "src/**/*.ts",
+    "types.d.ts",
+    "src/server.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
