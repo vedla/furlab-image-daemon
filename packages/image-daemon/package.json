@@ -9,7 +9,7 @@
   "private": true,
   "scripts": {
     "start": "node dist/server.js",
-    "dev": "ts-node-dev server.ts",
+    "dev": "ts-node-dev src/server.ts",
     "build": "tsc",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",

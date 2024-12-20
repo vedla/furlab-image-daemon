@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 // Define the port from environment variables or use 3000 as default
-const portFromEnv = process.env.DOCS_PORT ? parseInt(process.env.DOCS_PORT, 10) : null;
+const portFromEnv = process.env.PORT ? parseInt(process.env.PORT, 10) : null;
 const PORT: number = portFromEnv && !isNaN(portFromEnv) ? portFromEnv : 3000;
 
 // Proxy configuration for microservices

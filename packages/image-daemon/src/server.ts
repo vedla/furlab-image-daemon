@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 // Define the port from environment variables or use 3003 as default
-const portFromEnv = process.env.PORT ? parseInt(process.env.PORT, 10) : null;
+const portFromEnv = process.env.PORT_IMG ? parseInt(process.env.PORT_IMG, 10) : null;
 const PORT: number = portFromEnv && !isNaN(portFromEnv) ? portFromEnv : 3001;
 
 /**
