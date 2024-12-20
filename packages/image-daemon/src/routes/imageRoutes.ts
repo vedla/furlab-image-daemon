@@ -1,6 +1,6 @@
 import express from 'express';
 import { getSearch, handleImageSearch } from '../controllers/imageController';
-import { authMiddleware, validateFile, uploadMiddleware } from '@furlab_service/shared';
+import { authMiddleware, validateFile, uploadMiddleware } from '@furlab-api/shared';
 import { getAllPosts } from '../controllers/postController';
 
 const router = express.Router();

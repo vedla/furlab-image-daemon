@@ -1,5 +1,3 @@
-'use server';
-
 import { storage, databases } from '../utils/appwriteClient';
 import { ID, Query, Permission, Role } from 'node-appwrite';
 import { InputFile } from '../utils/inputFile';

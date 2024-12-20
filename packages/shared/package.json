@@ -1,5 +1,5 @@
 {
-  "name": "@furlab_service/shared",
+  "name": "@furlab-api/shared",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",

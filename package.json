@@ -1,9 +1,9 @@
 {
-  "name": "furlab_service",
+  "name": "furlab-api",
   "version": "1.0.0",
   "description": "Furlab API Services",
   "main": "src/server.js",
-  "repository": "https://github.com/vedla/furlab-microservices.git",
+  "repository": "https://github.com/vedla/furlab-api.git",
   "author": "Tay Fox <tay@vedla.io>",
   "license": "MIT",
   "private": true,
@@ -11,9 +11,9 @@
     "docs": "npx jsdoc -c jsdoc.json",
     "swagger": "node swagger.ts",
     "proxy": "ts-node-dev server.ts",
-    "workspace:install": "concurrently \"yarn workspace @furlab_service/image-daemon install\"",
-    "dev": "concurrently \"yarn proxy\" \"yarn workspace @furlab_service/image-daemon dev\"",
-    "dev:image-daemon": "yarn workspace @furlab_service/image-daemon dev"
+    "workspace:install": "concurrently \"yarn workspace @furlab-api/image-daemon install\"",
+    "dev": "concurrently \"yarn proxy\" \"yarn workspace @furlab-api/image-daemon dev\"",
+    "dev:image-daemon": "yarn workspace @furlab-api/image-daemon dev"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
