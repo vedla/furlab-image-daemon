@@ -15,7 +15,6 @@
     "dev": "concurrently \"yarn proxy\" \"yarn workspace @furlab-api/image-daemon dev\"",
     "dev:image-daemon": "yarn workspace @furlab-api/image-daemon dev",
     "build": "tsc -p tsconfig.json && yarn workspaces run build",
-    "prestart": "yarn build",
     "start": "node dist/server.js"
   },
   "dependencies": {
