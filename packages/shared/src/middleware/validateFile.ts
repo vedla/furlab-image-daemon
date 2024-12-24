@@ -3,27 +3,31 @@ import { AppRequest } from '../utils/Types';
 
 import multer from 'multer';
 
-// Set up Multer to handle file uploads
 const upload = multer({
-  storage: multer.memoryStorage(), // Store files in memory as Buffers
-  limits: { fileSize: 4 * 1024 * 1024 }, // 4MB size limit
+  storage: multer.memoryStorage(), // Store uploaded files in memory
+  limits: { fileSize: 4 * 1024 * 1024 }, // Limit to 4MB
 });
 
-export const uploadMiddleware = upload.single('imageBuffer'); // Field name should match form-data key
+export const uploadMiddleware = upload.single('imageBuffer'); // Field name should match the key used in FormData
 
 export const validateFile = async (
   req: AppRequest,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
-  const { imageBuffer } = req.body;
+  let file: Buffer | undefined;
 
-  console.log('imageBuffer:', imageBuffer);
-  console.log('imageBuffer:', req.body);
+  // Check if the file is in `req.file` (multipart form-data)
+  if (req.file) {
+    file = req.file.buffer; // Extract the buffer from the uploaded file
+  } else if (req.body.imageBuffer) {
+    // Parse the buffer from `req.body` (application/json or similar)
+    file = Buffer.from(req.body.imageBuffer, 'base64'); // Adjust decoding as needed
+  }
 
-  if (!imageBuffer || !(imageBuffer instanceof Buffer)) {
+  if (!file || !(file.buffer instanceof Buffer)) {
     res.status(400).json({
-      error: 'Bad Request: Missing or invalid file (imageBuffer) in the request body.',
+      error: 'E_301 -- Bad Request: Missing or invalid file in the request.',
     });
     return;
   }

@@ -30,17 +30,15 @@ export const handleImageSearch = async (
     let imageBuffer: Buffer | undefined;
 
     // Check if the file is in `req.file` (multipart form-data)
+
     if (req.file) {
       imageBuffer = req.file.buffer; // Extract the buffer from the uploaded file
     } else if (req.body.imageBuffer) {
       // Parse the buffer from `req.body` (application/json or similar)
-      imageBuffer = Buffer.from(req.body.imageBuffer, 'base64'); // Adjust decoding as needed
+      imageBuffer = Buffer.from(req.body.file, 'base64'); // Adjust decoding as needed
     }
 
-    const includeNsfw = req.body.includeNsfw === 'true'; // Parse NSFW flag from body
-
-    console.log('imageBuffer:', imageBuffer);
-    console.log('includeNsfw:', includeNsfw);
+    const includeNsfw = req.body.includeNsfw === 'true';
 
     if (!imageBuffer) {
       res.status(400).json({ error: 'Image buffer is missing' });
@@ -48,19 +46,31 @@ export const handleImageSearch = async (
     }
 
     // Check cache
+
     const cachedResult = await getCachedResult(imageBuffer);
     if (cachedResult) {
+      console.log('Returning cached result');
       res.status(200).json(cachedResult);
       return;
+    } else {
+      console.log('Searching Fluffle');
+      // Search Fluffle
+      const fluffleResults = await searchFluffle(imageBuffer, includeNsfw);
+
+      // console.log('Fluffle results:', fluffleResults);
+
+      if (!fluffleResults.results.length) {
+        console.log('Saving results to cache', fluffleResults.results.length);
+        res.status(404).json({ error: 'No results found' });
+        return;
+      } else {
+        // Cache the results
+        console.log('Saving results to cache', fluffleResults.results.length);
+        const cached = await cacheResult(imageBuffer, fluffleResults);
+        res.status(200).json(cached);
+        return;
+      }
     }
-
-    // Search Fluffle
-    const fluffleResults = await searchFluffle(imageBuffer, includeNsfw);
-
-    // Cache the results
-    const cached = await cacheResult(imageBuffer, fluffleResults);
-
-    res.status(200).json(cached);
   } catch (error) {
     next(error);
   }

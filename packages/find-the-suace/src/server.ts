@@ -1,12 +1,7 @@
-import dotenv from 'dotenv';
 import express, { Application } from 'express';
 import cors from 'cors';
 import imageRoutes from './routes/imageRoutes';
-
 import { server, info, warn, error } from 'good-logs';
-
-// Load environment variables from .env file
-dotenv.config();
 
 // Initialize express application
 const app: Application = express();
@@ -16,7 +11,9 @@ app.use(cors());
 app.use(express.json());
 
 // Define the port from environment variables or use 3003 as default
-const portFromEnv = process.env.PORT_IMG ? parseInt(process.env.PORT_IMG, 10) : null;
+const portFromEnv = process.env.PORT_FINDMYFLUFF
+  ? parseInt(process.env.PORT_FINDMYFLUFF, 10)
+  : null;
 const PORT: number = portFromEnv && !isNaN(portFromEnv) ? portFromEnv : 3001;
 
 /**

@@ -11,18 +11,19 @@
     "docs": "npx jsdoc -c jsdoc.json",
     "swagger": "node src/swagger.ts",
     "proxy": "ts-node-dev src/server.ts",
-    "workspace:install": "concurrently \"yarn workspace @furlab-api/image-daemon install\"",
-    "dev": "concurrently \"yarn proxy\" \"yarn workspace @furlab-api/image-daemon dev\"",
-    "dev:image-daemon": "yarn workspace @furlab-api/image-daemon dev",
+    "workspace:install": "concurrently \"yarn workspace @furlab-api/find-the-sauce install\"",
+    "dev": "concurrently \"yarn proxy\" \"yarn workspace @furlab-api/find-the-sauce dev\"",
+    "dev:find-the-sauce": "yarn workspace @furlab-api/find-the-sauce dev",
     "build": "tsc -p tsconfig.json && yarn workspaces run build",
-    "start": "concurrently \"node dist/server.js\" \"yarn workspace @furlab-api/image-daemon start\""
+    "start": "concurrently \"node dist/server.js\" \"yarn workspace @furlab-api/find-the-sauce start\""
   },
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "cors": "^2.8.5",
     "http-proxy-middleware": "^3.0.3",
-    "good-logs": "^1.2.6"
+    "good-logs": "^1.2.6",
+    "@dopplerhq/node-sdk": "^1.3.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

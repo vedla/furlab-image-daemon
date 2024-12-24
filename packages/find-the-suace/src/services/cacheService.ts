@@ -1,9 +1,9 @@
-import { storage, databases } from '../utils/appwriteClient';
+import { storage, databases } from '../utils/appwrite';
 import { ID, Query, Permission, Role } from 'node-appwrite';
 import { InputFile } from '../utils/inputFile';
 
 import crypto from 'crypto';
-import sharp from 'sharp';
+import sharp, { cache } from 'sharp';
 
 const DATABASE_ID = process.env.APPWRITE_DATABASE_ID || '';
 const COLLECTION_ID = process.env.APPWRITE_COLLECTION_ID || '';
@@ -34,6 +34,8 @@ export const getCachedResult = async (imageBuffer: Buffer) => {
         };
       });
 
+      deserializedResults.push({ cache: true });
+
       return {
         ...document,
         fluffleResults: deserializedResults,
@@ -56,16 +58,24 @@ export const cacheResult = async (imageBuffer: Buffer, fluffleResults: any) => {
   // Ensure `fluffleResults` is an array
   const fluffleResultsArray = Array.isArray(fluffleResults)
     ? fluffleResults
-    : fluffleResults.results; // Adjust `results` to match the Fluffle API response
+    : fluffleResults.results;
 
   if (!Array.isArray(fluffleResultsArray)) {
     throw new Error('Invalid Fluffle API response: results is not an array');
   }
 
-  // Serialize fluffleResults for storage
-  const serializedResults = fluffleResultsArray.map((result: any) => {
-    return `platform:${result.platform},url:${result.location},score:${result.score}`;
-  });
+  // Filter out unlikely matches and format results
+  const platforms = fluffleResultsArray
+    .filter((result: any) => result.match !== 'unlikely') // Exclude "unlikely" matches
+    .map((result: any) => {
+      const singlePatfoorm = {
+        platform: result.platform,
+        location: result.location,
+        credits: result.credits || [], // Default to an empty array if credits are missing
+      };
+
+      return JSON.stringify(singlePatfoorm);
+    });
 
   // Resize the image
   const resizedImage = await sharp(imageBuffer)
@@ -73,23 +83,27 @@ export const cacheResult = async (imageBuffer: Buffer, fluffleResults: any) => {
     .png()
     .toBuffer();
 
-  // Upload the image to Appwrite storage
+  // Simulate file upload to Appwrite storage (commented out in your example)
   const file = await storage.createFile(
     BUCKET_ID,
     ID.unique(),
-    InputFile.fromBuffer(resizedImage, 'image.png'),
+    InputFile.fromBuffer(resizedImage, `${hash}.png`),
     [Permission.read(Role.any()), Permission.write(Role.users()), Permission.update(Role.users())]
   );
 
-  // Save metadata to the Appwrite database
+  // Create the final metadata object
   const metadata = {
     hash,
-    fluffleResults: serializedResults, // Store as an array of strings
-    fileId: file.$id,
+    fileId: file.$id, // Replace with `file.$id` when integrating Appwrite
     createdAt: new Date().toISOString(),
+    nsfw: platforms.some((platform: any) => !platform.nsfw), // Determine NSFW status based on results
+    users: ['6769e28b000c70486c50'], // Assign all results to the bot user for now
+    platforms, // Serialize platforms array to JSON
   };
 
+  // Simulate saving metadata to the Appwrite database (commented out in your example)
   await databases.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), metadata);
 
+  console.log('Formatted Metadata:', metadata);
   return metadata;
 };

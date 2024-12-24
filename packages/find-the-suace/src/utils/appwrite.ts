@@ -1,12 +1,4 @@
-import {
-  Client,
-  Databases,
-  Storage,
-  ID,
-  Query,
-  Permission,
-  Role,
-} from 'node-appwrite';
+import { Client, Databases, Storage } from 'node-appwrite';
 
 import chalk from 'chalk';
 
@@ -14,9 +6,7 @@ import 'dotenv/config';
 
 const client = new Client();
 
-
 export const createAppwriteClient = () => {
-
   const appwriteConfig = {
     endpoint: process.env.APPWRITE_ENDPOINT,
     projectId: process.env.APPWRITE_PROJECT_ID,
@@ -34,7 +24,6 @@ export const createAppwriteClient = () => {
     !appwriteConfig.userCollectionId ||
     !appwriteConfig.bucketId
   ) {
-
     console.error(chalk.bgRed('E001__Missing Appwrite configuration(s) variable(s)'));
     throw new Error('Missing Appwrite configuration');
   }

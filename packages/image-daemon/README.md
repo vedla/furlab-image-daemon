@@ -1,1 +1,0 @@
-# furlab-image-daemon

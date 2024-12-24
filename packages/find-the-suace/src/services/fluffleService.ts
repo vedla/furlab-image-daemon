@@ -23,7 +23,13 @@ export const searchFluffle = async (imageBuffer: Buffer, includeNsfw: boolean) =
 
   try {
     const response = await axios.post('https://api.fluffle.xyz/v1/search', formData, { headers });
-    return response.data;
+
+    // Filter results to remove 'unlikely' matches
+    const filteredResults = response.data.results.filter(
+      (result: { match: string }) => result.match !== 'unlikely'
+    );
+
+    return { ...response.data, results: filteredResults }; // Return filtered results
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error('Error calling Fluffle API:', error.message);

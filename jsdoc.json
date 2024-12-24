@@ -1,8 +1,8 @@
 {
   "source": {
     "include": [
-      "packages/image-daemon/src/",
-      "packages/image-daemon/types.d.ts",
+      "packages/find-the-sauce/src/",
+      "packages/find-the-sauce/types.d.ts",
       "packages/shared/src",
       "packages/shared/types.d.ts"
     ],
