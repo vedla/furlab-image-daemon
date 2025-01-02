@@ -3,6 +3,7 @@ import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { AppRequest } from '../utils/Types';
 import { error } from 'good-logs';
+import 'dotenv/config';
 /**
  * Middleware for authenticating users by verifying JWT tokens.
  *
@@ -21,8 +22,9 @@ const authMiddleware = async (
   // Extract token from header or query parameter
   const token = req.headers.authorization?.split(' ')[1] || (req.query.token as string); // From `Authorization` header // From `token` query parameter
 
-  console.log('Token:', token);
-  console.log('Token:', req.headers);
+  // console.log('Token:', token);
+  // console.log('Token:', req.headers);
+  // console.log('Token:', process.env.JWT_SECRET);
   // console.log('Authorization:', process.env.JWT_SECRET);
   // console.warn(token === process.env.JWT_SECRET);
   // if (!token) {
@@ -57,7 +59,7 @@ const authMiddleware = async (
   }
 
   if (token === process.env.JWT_SECRET) {
-    console.log('Dev token validated');
+    // console.log('Dev token validated');
     // Optionally attach user info to the request for testing
 
     return next();

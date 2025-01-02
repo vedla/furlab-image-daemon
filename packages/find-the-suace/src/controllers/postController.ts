@@ -20,7 +20,7 @@ export const getAllPosts = async (req: Request, res: Response): Promise<void> =>
   const { nsfw, isPrivate } = req.query;
 
   try {
-    res.status(200).json(posts);
+    res.status(200).json({ results: posts });
   } catch (error) {
     res.status(500).json({ error: (error as any).message });
   }

@@ -67,7 +67,7 @@ app.use((req: express.Request, res: express.Response) => {
 
 // Global error handler
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  error(err.stack, 'Internal Server Error', '500');
+  error(err.stack, 'Proxy: Internal Server Error', '500');
   res.status(500).json({ message: 'Proxy: Internal Server Error' });
 });
 

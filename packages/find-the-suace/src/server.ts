@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import imageRoutes from './routes/imageRoutes';
 import { server, info, warn, error } from 'good-logs';
+import 'dotenv/config';
 
 // Initialize express application
 const app: Application = express();
@@ -33,13 +34,13 @@ app.listen(PORT, () => {
 
 // Handle 404 for undefined routes
 app.use((req: express.Request, res: express.Response) => {
-  error(req.url, 'Internal Server Error', '400');
+  error(req.url, 'IMG: Internal Server Error', '400');
   res.status(404).json({ message: 'Media Server Service: Resource not found' });
 });
 
 // Global error handler
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  error(err.stack, 'Internal Server Error', '500');
+  error(err.stack, 'IMG: Internal Server Error', '500');
   res.status(500).json({ message: 'Internal Server Error' });
 });
 

@@ -17,7 +17,7 @@ export const searchFluffle = async (imageBuffer: Buffer, includeNsfw: boolean) =
   formData.append('limit', '8');
 
   const headers = {
-    'User-Agent': 'FurlabDaemon/1.0 (by Tay Fox on GitHub)',
+    'User-Agent': process.env.FLUFFLE_USER_AGENT,
     ...formData.getHeaders(),
   };
 

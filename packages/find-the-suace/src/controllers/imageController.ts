@@ -50,24 +50,25 @@ export const handleImageSearch = async (
     const cachedResult = await getCachedResult(imageBuffer);
     if (cachedResult) {
       console.log('Returning cached result');
-      res.status(200).json(cachedResult);
+      console.log(cachedResult.platforms);
+      res.status(200).json({ data: cachedResult, code: 200, message: 'Cached result' });
       return;
     } else {
       console.log('Searching Fluffle');
       // Search Fluffle
       const fluffleResults = await searchFluffle(imageBuffer, includeNsfw);
 
-      // console.log('Fluffle results:', fluffleResults);
+      console.log('Fluffle results:', fluffleResults);
 
       if (!fluffleResults.results.length) {
-        console.log('Saving results to cache', fluffleResults.results.length);
-        res.status(404).json({ error: 'No results found' });
+        console.info('Saving results to cache', fluffleResults.results.length);
+        res.status(200).json({ data: {}, code: 404, message: 'No results found' });
         return;
       } else {
         // Cache the results
-        console.log('Saving results to cache', fluffleResults.results.length);
+        console.info('Saving results to cache', fluffleResults.results.length);
         const cached = await cacheResult(imageBuffer, fluffleResults);
-        res.status(200).json(cached);
+        res.status(200).json({ data: cached, code: 200, message: 'Results found' });
         return;
       }
     }

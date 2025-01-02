@@ -9,7 +9,7 @@ import { Request, Response } from 'express';
  */
 export const welcomeMessage = async (req: Request, res: Response): Promise<void> => {
   try {
-    res.status(200).json({ message: 'Welcome' });
+    res.status(200).json({ results: 'Welcome' });
   } catch (error) {
     res.status(500).json({ error: (error as any).message });
   }

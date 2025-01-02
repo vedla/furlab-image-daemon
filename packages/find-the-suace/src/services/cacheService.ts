@@ -1,9 +1,10 @@
-import { storage, databases } from '../utils/appwrite';
+import { storage, databases, getImagePreview } from '../utils/appwrite';
 import { ID, Query, Permission, Role } from 'node-appwrite';
 import { InputFile } from '../utils/inputFile';
 
 import crypto from 'crypto';
 import sharp, { cache } from 'sharp';
+import 'dotenv/config';
 
 const DATABASE_ID = process.env.APPWRITE_DATABASE_ID || '';
 const COLLECTION_ID = process.env.APPWRITE_COLLECTION_ID || '';
@@ -25,20 +26,27 @@ export const getCachedResult = async (imageBuffer: Buffer) => {
       const document = result.documents[0];
 
       // Deserialize fluffleResults back into an array of objects
-      const deserializedResults = document.fluffleResults.map((entry: string) => {
-        const [platform, url, score] = entry.split(',');
-        return {
-          platform: platform.split(':')[1],
-          url: url.split(':')[1],
-          score: parseFloat(score.split(':')[1]),
+      const deserializedResults = document.platforms.map((entry: string) => {
+        const entryObj = JSON.parse(entry);
+
+        const results = {
+          platform: entryObj.platform,
+          location: entryObj.location,
+          credits: entryObj.credits,
+          cache: true,
         };
+
+        return results;
       });
 
-      deserializedResults.push({ cache: true });
+      console.log(document.fileId);
+
+      // const preview = await getImagePreview(document.fileId);
 
       return {
         ...document,
-        fluffleResults: deserializedResults,
+        // preview,
+        platforms: JSON.stringify(deserializedResults),
       };
     }
 
@@ -68,13 +76,14 @@ export const cacheResult = async (imageBuffer: Buffer, fluffleResults: any) => {
   const platforms = fluffleResultsArray
     .filter((result: any) => result.match !== 'unlikely') // Exclude "unlikely" matches
     .map((result: any) => {
-      const singlePatfoorm = {
+      const singlePlatform = {
         platform: result.platform,
         location: result.location,
-        credits: result.credits || [], // Default to an empty array if credits are missing
+        credits: result.credits || [],
+        cache: false,
       };
 
-      return JSON.stringify(singlePatfoorm);
+      return JSON.stringify(singlePlatform);
     });
 
   // Resize the image
@@ -91,19 +100,22 @@ export const cacheResult = async (imageBuffer: Buffer, fluffleResults: any) => {
     [Permission.read(Role.any()), Permission.write(Role.users()), Permission.update(Role.users())]
   );
 
+  const preview = await getImagePreview(file.$id);
+
   // Create the final metadata object
   const metadata = {
     hash,
+    preview,
     fileId: file.$id, // Replace with `file.$id` when integrating Appwrite
     createdAt: new Date().toISOString(),
     nsfw: platforms.some((platform: any) => !platform.nsfw), // Determine NSFW status based on results
     users: ['6769e28b000c70486c50'], // Assign all results to the bot user for now
-    platforms, // Serialize platforms array to JSON
+    platforms,
   };
 
   // Simulate saving metadata to the Appwrite database (commented out in your example)
   await databases.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), metadata);
 
-  console.log('Formatted Metadata:', metadata);
+  // console.log('Formatted Metadata:', metadata);
   return metadata;
 };
