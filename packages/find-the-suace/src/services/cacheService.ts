@@ -39,13 +39,11 @@ export const getCachedResult = async (imageBuffer: Buffer) => {
         return results;
       });
 
-      console.log(document.fileId);
-
-      // const preview = await getImagePreview(document.fileId);
+      const preview = await getImagePreview(document.fileId);
 
       return {
         ...document,
-        // preview,
+        preview,
         platforms: JSON.stringify(deserializedResults),
       };
     }

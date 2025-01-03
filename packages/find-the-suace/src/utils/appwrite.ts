@@ -48,7 +48,7 @@ export const getImagePreview = async (fileId: string) => {
   //   ImageGravity.Center
   // );
 
-  const preview = `${appwriteConfig.endpoint}/storage/buckets/${appwriteConfig.bucketId}/files/${fileId}/preview`;
+  const preview = `${appwriteConfig.endpoint}/storage/buckets/${appwriteConfig.bucketId}/files/${fileId}/preview/?project=${appwriteConfig.projectId}&width=200&height=200&gravity=center&quality=100&output=webp`;
 
   console.warn('getImagePreview', preview);
 
